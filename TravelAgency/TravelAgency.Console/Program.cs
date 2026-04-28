@@ -2,47 +2,34 @@
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-Console.WriteLine("Лабораторна робота №1".ToTitleText());
-Console.WriteLine("Демонстрація роботи CRUD сервісу\n");
+var service = new CrudServiceAsync<Bus>();
 
-var busService = new CrudService<Bus>();
-var carService = new CrudService<Car>();
-var ticketService = new CrudService<Ticket>();
+Console.WriteLine("Генерація 1000 автобусів...");
 
-var bus = new Bus("Mercedes Sprinter", 2020, 20, "Полтава - Київ", 12.5);
-var car = new Car("Octavia", 2019, "Skoda", 5, 1200);
-var ticket = new Ticket(450, "TK-001", "Київ");
-
-busService.Create(bus);
-carService.Create(car);
-ticketService.Create(ticket);
-
-Console.WriteLine("Додані об'єкти:");
-
-foreach (var item in busService.ReadAll())
+Parallel.For(0, 1000, i =>
 {
-    Console.WriteLine(item.GetInfo());
-}
+    var bus = new Bus($"Bus-{i}", 2000 + (i % 20), 20 + (i % 30), "Route", 10 + i);
+    service.CreateAsync(bus).Wait();
+});
 
-foreach (var item in carService.ReadAll())
+Console.WriteLine("Готово!");
+
+var all = await service.ReadAllAsync();
+
+Console.WriteLine($"\nВсього автобусів: {all.Count()}");
+
+// LINQ статистика
+var newest = all.OrderByDescending(x => x.Year).First();
+var avgCapacity = all.Average(x => x.Capacity);
+
+Console.WriteLine($"\nНайновіший автобус: {newest.GetInfo()}");
+Console.WriteLine($"Середня кількість місць: {avgCapacity}");
+
+Console.WriteLine("\nТоп 5 автобусів:");
+
+foreach (var bus in all.Take(5))
 {
-    Console.WriteLine(item.GetInfo());
+    Console.WriteLine(bus.GetInfo());
 }
-
-foreach (var item in ticketService.ReadAll())
-{
-    Console.WriteLine(item.GetInfo());
-}
-
-Console.WriteLine($"\nКількість створених транспортних засобів: {Vehicle.GetVehicleCount()}");
-
-Console.WriteLine("\nПошук автобуса за Id:");
-var foundBus = busService.Read(bus.Id);
-Console.WriteLine(foundBus.GetInfo());
-
-Console.WriteLine("\nВидалення квитка...");
-ticketService.Remove(ticket);
-
-Console.WriteLine($"Кількість квитків після видалення: {ticketService.ReadAll().Count()}");
 
 Console.WriteLine("\nПрограма завершена.");
