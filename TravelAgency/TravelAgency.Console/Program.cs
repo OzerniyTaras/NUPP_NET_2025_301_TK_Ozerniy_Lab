@@ -1,35 +1,42 @@
-﻿using TravelAgency.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using TravelAgency.Infrastructure;
+using TravelAgency.Infrastructure.Models;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-var service = new CrudServiceAsync<Bus>();
+var options = new DbContextOptionsBuilder<TravelAgencyContext>()
+    .UseSqlite("Data Source=travelagency.db")
+    .Options;
 
-Console.WriteLine("Генерація 1000 автобусів...");
+using var context = new TravelAgencyContext(options);
 
-Parallel.For(0, 1000, i =>
+context.Database.EnsureCreated();
+
+var repository = new Repository<BusModel>(context);
+
+var bus = new BusModel
 {
-    var bus = new Bus($"Bus-{i}", 2000 + (i % 20), 20 + (i % 30), "Route", 10 + i);
-    service.CreateAsync(bus).Wait();
-});
+    Id = Guid.NewGuid(),
+    Name = "Mercedes Sprinter",
+    Year = 2020,
+    Capacity = 20,
+    Route = "Полтава - Київ",
+    FuelConsumption = 12.5
+};
 
-Console.WriteLine("Готово!");
+await repository.CreateAsync(bus);
 
-var all = await service.ReadAllAsync();
+var buses = await repository.GetAllAsync();
 
-Console.WriteLine($"\nВсього автобусів: {all.Count()}");
+Console.WriteLine("Лабораторна робота №3");
+Console.WriteLine("Робота з базою даних SQLite через Entity Framework\n");
 
-// LINQ статистика
-var newest = all.OrderByDescending(x => x.Year).First();
-var avgCapacity = all.Average(x => x.Capacity);
+Console.WriteLine("Автобуси в базі даних:");
 
-Console.WriteLine($"\nНайновіший автобус: {newest.GetInfo()}");
-Console.WriteLine($"Середня кількість місць: {avgCapacity}");
-
-Console.WriteLine("\nТоп 5 автобусів:");
-
-foreach (var bus in all.Take(5))
+foreach (var item in buses)
 {
-    Console.WriteLine(bus.GetInfo());
+    Console.WriteLine($"{item.Name}, рік: {item.Year}, маршрут: {item.Route}, місць: {item.Capacity}");
 }
 
+Console.WriteLine($"\nКількість автобусів у БД: {buses.Count}");
 Console.WriteLine("\nПрограма завершена.");

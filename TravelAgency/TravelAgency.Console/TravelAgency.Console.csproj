@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TravelAgency.Infrastructure\TravelAgency.Infrastructure.csproj" />
     <ProjectReference Include="..\TravelAgency\TravelAgency.common.csproj" />
   </ItemGroup>
 
