@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.common", "TravelAgency\TravelAgency.common.csproj", "{904CD4AA-767B-4F4D-B8F7-9C2AAB0D5CC9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.Console", "TravelAgency.Console\TravelAgency.Console.csproj", "{A53583CD-F22D-471F-924D-856B715A929C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.REST", "TravelAgency.REST\TravelAgency.REST.csproj", "{A4537312-39BD-46A1-9A94-94204E4BEA92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A53583CD-F22D-471F-924D-856B715A929C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A53583CD-F22D-471F-924D-856B715A929C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A53583CD-F22D-471F-924D-856B715A929C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4537312-39BD-46A1-9A94-94204E4BEA92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4537312-39BD-46A1-9A94-94204E4BEA92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4537312-39BD-46A1-9A94-94204E4BEA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4537312-39BD-46A1-9A94-94204E4BEA92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
