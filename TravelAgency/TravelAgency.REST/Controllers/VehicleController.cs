@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TravelAgency.REST.Models;
 
 namespace TravelAgency.REST.Controllers
@@ -9,12 +10,14 @@ namespace TravelAgency.REST.Controllers
     {
         private static List<VehicleModel> vehicles = new();
 
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<IEnumerable<VehicleModel>> GetAll()
         {
             return Ok(vehicles);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public ActionResult<VehicleModel> Get(Guid id)
         {
@@ -26,6 +29,7 @@ namespace TravelAgency.REST.Controllers
             return Ok(vehicle);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPost]
         public ActionResult Create(VehicleModel model)
         {
@@ -38,6 +42,7 @@ namespace TravelAgency.REST.Controllers
                 model);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPut]
         public ActionResult Update(VehicleModel model)
         {
@@ -51,6 +56,7 @@ namespace TravelAgency.REST.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult Delete(Guid id)
         {
